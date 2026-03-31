@@ -19,6 +19,7 @@ export interface TarotRequest {
     description: string;
     uprightMeaning: string;
     reversedMeaning: string;
+    imageUrl?: string;
     isReversed?: boolean;
     position?: string;
   }
