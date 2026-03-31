@@ -2,10 +2,24 @@ import { NextResponse } from 'next/server';
 import path from 'path';
 import fs from 'fs/promises';
 
+type Suit = 'wands' | 'cups' | 'swords' | 'pentacles';
+
+interface DeckCard {
+    id: number;
+    nameEn: string;
+    type: 'major' | 'minor';
+    suit?: Suit;
+}
+
+interface TarotDeck {
+    major: DeckCard[];
+    minor: Record<Suit, DeckCard[]>;
+}
+
 // 添加辅助函数来获取实际的卡牌信息
-function getCardInfo(cardId: number, deck: any) {
+function getCardInfo(cardId: number, deck: TarotDeck) {
     if (cardId <= 21) {  // 修改为21，因为大阿尔卡纳是0-21
-        return deck.major.find((c: any) => c.id === cardId);
+        return deck.major.find((c) => c.id === cardId);
     }
     
     let suit: string;
@@ -25,7 +39,7 @@ function getCardInfo(cardId: number, deck: any) {
         localId = cardId - 63;
     }
     
-    return deck.minor[suit].find((c: any) => c.id === localId);
+    return deck.minor[suit as Suit].find((c) => c.id === localId);
 }
 
 export async function GET(
@@ -34,11 +48,11 @@ export async function GET(
 ) {
     try {
         const { id } = await params;
-        const cardId = parseInt(id);
+        const cardId = parseInt(id, 10);
         
         const deckPath = path.join(process.cwd(), 'data', 'tarot', 'deck.json');
         const deckData = await fs.readFile(deckPath, 'utf-8');
-        const deck = JSON.parse(deckData);
+        const deck = JSON.parse(deckData) as TarotDeck;
         
         const card = getCardInfo(cardId, deck);
 

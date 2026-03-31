@@ -43,12 +43,6 @@ async function loadTarotDeck(): Promise<TarotCard[]> {
   ];
 }
 
-// 读取图片并转换为 Base64
-async function getImageBase64(imagePath: string): Promise<string> {
-  const imageBuffer = await fs.readFile(imagePath);
-  return imageBuffer.toString('base64');
-}
-
 // 随机抽取指定数量的卡牌并添加位置信息
 async function drawCards(deck: TarotCard[], spreadType: string) {
     const normalizedType = SPREAD_TYPES[spreadType as keyof typeof SPREAD_TYPES];
@@ -69,7 +63,7 @@ async function drawCards(deck: TarotCard[], spreadType: string) {
 
 export async function POST(req: Request) {
   try {
-    const { spreadType: rawSpreadType, question } = await req.json();
+    const { spreadType: rawSpreadType } = await req.json();
 
     if (!(rawSpreadType in SPREAD_TYPES)) {
       return NextResponse.json({ error: 'Invalid spread type' }, { status: 400 });
