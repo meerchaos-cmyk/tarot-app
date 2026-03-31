@@ -30,10 +30,11 @@ function getCardInfo(cardId: number, deck: any) {
 
 export async function GET(
     request: Request,
-    { params }: { params: { id: string } }  // 移除 Promise
+    { params }: { params: Promise<{ id: string }> }
 ) {
     try {
-        const cardId = parseInt(params.id);
+        const { id } = await params;
+        const cardId = parseInt(id);
         
         const deckPath = path.join(process.cwd(), 'data', 'tarot', 'deck.json');
         const deckData = await fs.readFile(deckPath, 'utf-8');
