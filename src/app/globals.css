@@ -3,19 +3,24 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #090611;
+  --foreground: #efe7d2;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
 }
 
 body {
+  margin: 0;
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.aurora-bg {
+  background:
+    radial-gradient(75% 45% at 8% 12%, rgba(109, 78, 157, 0.35), transparent 72%),
+    radial-gradient(62% 45% at 92% 4%, rgba(36, 74, 147, 0.28), transparent 78%),
+    radial-gradient(70% 52% at 50% 112%, rgba(170, 114, 39, 0.2), transparent 68%);
 }
